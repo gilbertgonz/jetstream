@@ -11,13 +11,13 @@ std::string gstreamer_pipeline (int capture_width, int capture_height, int displ
 
 int main()
 {
-    int w = 3264, h = 2464;
+    int w = 1640, h = 1232;
     std::string pipeline = gstreamer_pipeline(
         w,    // capture_width
         h,    // capture_height
         w, // display_width
         h,  // display_height
-        21,   // framerate
+        28,   // framerate
         0     // flip_method
     );
  
@@ -30,7 +30,7 @@ int main()
 
     // Video params
     cv::VideoWriter writer;
-    int codec = cv::VideoWriter::fourcc('H', '2', '6', '4');
+    int codec = cv::VideoWriter::fourcc('M', 'P', '4', 'V');
     double fps = 25.0;
     std::string filename = "./live.mp4";
     writer.open(filename, codec, fps, cv::Size(w, h), true);
