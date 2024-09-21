@@ -11,16 +11,15 @@ std::string gstreamer_pipeline (int capture_width, int capture_height, int displ
 
 int main()
 {
-    int w, h = 1280, 720;
+    int w, h = 3264, 2464;
     std::string pipeline = gstreamer_pipeline(
-        w, // capture_width
-        h,  // capture_height
+        w,    // capture_width
+        h,    // capture_height
         1280, // display_width
         720,  // display_height
-        30,   // framerate
+        21,   // framerate
         0     // flip_method
     );
-    std::cout << "Using pipeline: \n\t" << pipeline << "\n";
  
     // Open camera
     cv::VideoCapture cap(pipeline, cv::CAP_GSTREAMER);
