@@ -11,8 +11,8 @@ std::string gstreamer_pipeline (int capture_width, int capture_height, int displ
 
 int main()
 {
-    int w = 3264, h = 2464;
-    float fps = 21.0;
+    int w = 1920, h = 1080;
+    float fps = 30.0;
     std::string pipeline = gstreamer_pipeline(
         w, // capture_width
         h,  // capture_height
