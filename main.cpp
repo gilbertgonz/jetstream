@@ -1,6 +1,7 @@
 // reference: https://github.com/JetsonHacksNano/CSI-Camera/blob/master/simple_camera.cpp
 
 #include <opencv2/opencv.hpp>
+#include <opencv2/cudafilters.hpp>
 
 std::string gstreamer_pipeline (int capture_width, int capture_height, int display_width, int display_height, int framerate, int flip_method) {
     return "nvarguscamerasrc ! video/x-raw(memory:NVMM), width=(int)" + std::to_string(capture_width) + ", height=(int)" +
@@ -58,9 +59,8 @@ int main()
         // Download processed frame from GPU
         d_blurred_frame.download(blurred_frame);
 
-
         cv::Mat save_img = blurred_frame;
-        resize(blurred_frame, save_img, cv::Size(d_w, d_h));
+        cv::resize(blurred_frame, save_img, cv::Size(d_w, d_h));
         writer.write(save_img);
 	
         int keycode = cv::waitKey(1) & 0xff; 
