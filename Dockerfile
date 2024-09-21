@@ -11,6 +11,8 @@ COPY CMakeLists.txt /CMakeLists.txt
 RUN mkdir build && cd build \
     && cmake .. && make
 
+RUN mkdir /vid
+
 # Clean up
 RUN apt remove -y build-essential cmake
 

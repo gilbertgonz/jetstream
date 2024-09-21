@@ -21,22 +21,22 @@ int main()
     );
     std::cout << "Using pipeline: \n\t" << pipeline << "\n";
  
+    // Open camera
     cv::VideoCapture cap(pipeline, cv::CAP_GSTREAMER);
     if(!cap.isOpened()) {
-	std::cout<<"Failed to open camera."<<std::endl;
-	return (-1);
+        std::cout<<"Failed to open camera."<<std::endl;
+        return (-1);
     }
 
     // Video params
-    cv::VideoWriter outputVideo;
-    int codec = VideoWriter::fourcc('M', 'P', '4', 'V');
+    cv::VideoWriter writer;
+    int codec = cv::VideoWriter::fourcc('M', 'P', '4', 'V');
     double fps = 25.0;
-    std::string filename = "live.mp4";
+    std::string filename = "/vid/live.mp4";
     cv::Size sizeFrame(640,480);
-    bool isColor = (src.type() == CV_8UC3);
-    writer.open(filename, codec, fps, sizeFrame, isColor);
+    writer.open(filename, codec, fps, sizeFrame, true);
 
-    std::cout << "Hit ESC to exit" << "\n" ;
+    cv::Mat img;
     while(true) {
     	if (!cap.read(img)) {
             std::cout<<"Capture read error"<<std::endl;
@@ -44,7 +44,7 @@ int main()
         }
 
         cv::Mat temp_frame;
-        resize(image,temp_frame,sizeFrame);
+        resize(img, temp_frame, sizeFrame);
         writer.write(temp_frame);
 	
         int keycode = cv::waitKey(1) & 0xff; 
