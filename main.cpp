@@ -11,19 +11,14 @@ std::string gstreamer_pipeline (int capture_width, int capture_height, int displ
 
 int main()
 {
-    int capture_width = 1280;
-    int capture_height = 720;
-    int display_width = 1280;
-    int display_height = 720;
-    int framerate = 30;
-    int flip_method = 0;
-
-    std::string pipeline = gstreamer_pipeline(capture_width,
-	capture_height,
-	display_width,
-	display_height,
-	framerate,
-	flip_method);
+    std::string pipeline = gstreamer_pipeline(
+        1280, // capture_width
+        720,  // capture_height
+        1280, // display_width
+        720,  // display_height
+        30,   // framerate
+        0     // flip_method
+    );
     std::cout << "Using pipeline: \n\t" << pipeline << "\n";
  
     cv::VideoCapture cap(pipeline, cv::CAP_GSTREAMER);
@@ -32,23 +27,31 @@ int main()
 	return (-1);
     }
 
-    cv::namedWindow("CSI Camera", cv::WINDOW_AUTOSIZE);
-    cv::Mat img;
+    // Video params
+    cv::VideoWriter outputVideo;
+    int codec = VideoWriter::fourcc('M', 'P', '4', 'V');
+    double fps = 25.0;
+    std::string filename = "live.mp4";
+    cv::Size sizeFrame(640,480);
+    bool isColor = (src.type() == CV_8UC3);
+    writer.open(filename, codec, fps, sizeFrame, isColor);
 
     std::cout << "Hit ESC to exit" << "\n" ;
-    while(true)
-    {
+    while(true) {
     	if (!cap.read(img)) {
-		std::cout<<"Capture read error"<<std::endl;
-		break;
-	}
+            std::cout<<"Capture read error"<<std::endl;
+            break;
+        }
+
+        cv::Mat temp_frame;
+        resize(image,temp_frame,sizeFrame);
+        writer.write(temp_frame);
 	
-	cv::imshow("CSI Camera",img);
-	int keycode = cv::waitKey(10) & 0xff ; 
-        if (keycode == 27) break ;
+        int keycode = cv::waitKey(1) & 0xff; 
+        if (keycode == 27) break;
     }
 
     cap.release();
-    cv::destroyAllWindows() ;
+    writer.release();
     return 0;
 }
