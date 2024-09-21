@@ -33,7 +33,7 @@ int main()
     int codec = cv::VideoWriter::fourcc('H', '2', '6', '4');
     double fps = 25.0;
     std::string filename = "./live.mp4";
-    writer.open(filename, codec, fps, (w, h), true);
+    writer.open(filename, codec, fps, cv::Size(w, h), true);
 
     cv::Mat img;
     for (int i = 0; i < 150; i++) {
