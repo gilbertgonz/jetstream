@@ -36,7 +36,7 @@ int main()
     writer.open(filename, codec, fps, cv::Size(w, h), true);
 
     cv::Mat img;
-    while (true) {
+    for (int i = 0; i < 100; i++) {
     	if (!cap.read(img)) {
             std::cout<<"Capture read error"<<std::endl;
             break;
