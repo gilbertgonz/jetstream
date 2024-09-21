@@ -11,12 +11,12 @@ std::string gstreamer_pipeline (int capture_width, int capture_height, int displ
 
 int main()
 {
-    int w, h = 3264, 2464;
+    int w = 3264, h = 2464;
     std::string pipeline = gstreamer_pipeline(
         w,    // capture_width
         h,    // capture_height
-        1280, // display_width
-        720,  // display_height
+        w, // display_width
+        h,  // display_height
         21,   // framerate
         0     // flip_method
     );
