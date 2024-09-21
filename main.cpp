@@ -11,9 +11,10 @@ std::string gstreamer_pipeline (int capture_width, int capture_height, int displ
 
 int main()
 {
+    int w, h = 1280, 720;
     std::string pipeline = gstreamer_pipeline(
-        1280, // capture_width
-        720,  // capture_height
+        w, // capture_width
+        h,  // capture_height
         1280, // display_width
         720,  // display_height
         30,   // framerate
@@ -30,11 +31,10 @@ int main()
 
     // Video params
     cv::VideoWriter writer;
-    int codec = cv::VideoWriter::fourcc('M', 'P', '4', 'V');
+    int codec = cv::VideoWriter::fourcc('H', '2', '6', '4');
     double fps = 25.0;
     std::string filename = "./live.mp4";
-    cv::Size sizeFrame(640,480);
-    writer.open(filename, codec, fps, sizeFrame, true);
+    writer.open(filename, codec, fps, (w, h), true);
 
     cv::Mat img;
     for (int i = 0; i < 150; i++) {
@@ -44,7 +44,6 @@ int main()
         }
 
         cv::Mat temp_frame;
-        resize(img, temp_frame, sizeFrame);
         writer.write(temp_frame);
 	
         int keycode = cv::waitKey(1) & 0xff; 
